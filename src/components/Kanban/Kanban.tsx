@@ -51,8 +51,8 @@ export default function Kanban() {
       }
       newKanbanListData.items = reorderedKanbanListItems;
       setKanbanData(newKanbanData);
-      // move item from one list to another
     } else {
+      // move item from one list to another
       const reorderedKanbanListItems = moveKanbanListItem(
         kanbanData.find((kanban) => kanban.id === sourceIndex),
         kanbanData.find((kanban) => kanban.id === destinationIndex),
@@ -73,7 +73,7 @@ export default function Kanban() {
       newKanbanListDataSource.items = reorderedKanbanListItems[sourceIndex];
       newKanbanListDataDestination.items =
         reorderedKanbanListItems[destinationIndex];
-      //setKanbanData(newKanbanData.filter((kanban) => kanban.items.length));
+      //setKanbanData(newKanbanData.filter((kanban) => kanban.items.length)); // remove kanban if empty
       setKanbanData(newKanbanData);
     }
   };
@@ -197,6 +197,9 @@ export default function Kanban() {
       </DragDropContext>
       <NewKanbanListItemModal
         kanbanId={addItemKanbanId}
+        kanbanLabel={
+          kanbanData.find((kanban) => kanban.id === addItemKanbanId)?.label
+        }
         onClose={() => setAddItemKanbanId(null)}
         onSave={onSaveAddKanbanListItem}
       />

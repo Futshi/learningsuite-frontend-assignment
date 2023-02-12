@@ -4,10 +4,12 @@ import { IKanbanNewListItem } from "../../types/kanbanTypes";
 
 export default function NewKanbanListItemModal({
   kanbanId,
+  kanbanLabel,
   onClose,
   onSave,
 }: {
   kanbanId: string | null;
+  kanbanLabel: string | null | undefined;
   onClose: () => void;
   onSave: (kanbanListItemId: string, kanbanListItemContent: string) => void;
 }) {
@@ -38,7 +40,7 @@ export default function NewKanbanListItemModal({
         }}
       >
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          New KanbanItem for {kanbanId}
+          New KanbanItem for {kanbanLabel}
         </Typography>
         <TextField
           id="id"
