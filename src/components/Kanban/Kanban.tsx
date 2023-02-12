@@ -5,20 +5,17 @@ import { DragDropContext } from "react-beautiful-dnd";
 
 import KanbanList from "./KanbanList";
 import KanbanItem from "./KanbanItem";
-import NewKanbanListItemModal from "./NewKanbanListItemModal";
-import NewKanbanListCard from "./NewKanbanListCard";
+import NewKanbanItemModal from "./NewKanbanItemModal";
+import NewKanbanCard from "./NewKanbanCard";
 
-import {
-  moveKanbanListItem,
-  reorderkanbanlistitem,
-} from "../../utils/kanbanUtils";
-import { IKanbanList, IKanbanListItem } from "../../types/kanbanTypes";
+import { moveKanbanItem, reorderKanbanItem } from "../../utils/kanbanUtils";
+import { IKanban, IKanbanItem } from "../../types/kanbanTypes";
 
 import { DUMMY_DATA } from "./_DATA";
 
 export default function Kanban() {
   const [addItemKanbanId, setAddItemKanbanId] = useState<string | null>(null);
-  const [kanbanData, setKanbanData] = useState<IKanbanList[]>(DUMMY_DATA);
+  const [kanbanData, setKanbanData] = useState<IKanban[]>(DUMMY_DATA);
 
   useEffect(() => {
     console.log("Kanban data", kanbanData);
@@ -36,56 +33,55 @@ export default function Kanban() {
 
     // move item within list
     if (sourceIndex === destinationIndex) {
-      const reorderedKanbanListItems = reorderkanbanlistitem(
+      const reorderedKanbanItems = reorderKanbanItem(
         kanbanData.find((kanban) => kanban.id === sourceIndex),
         source.index,
         destination.index
       );
-      const newKanbanData: IKanbanList[] = [...kanbanData];
+      const newKanbanData: IKanban[] = [...kanbanData];
       const newKanbanListData = newKanbanData.find(
         (kanban) => kanban.id === sourceIndex
       );
-      if (!newKanbanListData || !reorderedKanbanListItems) {
+      if (!newKanbanListData || !reorderedKanbanItems) {
         // throw err
         return;
       }
-      newKanbanListData.items = reorderedKanbanListItems;
+      newKanbanListData.items = reorderedKanbanItems;
       setKanbanData(newKanbanData);
     } else {
       // move item from one list to another
-      const reorderedKanbanListItems = moveKanbanListItem(
+      const reorderedKanbanItems = moveKanbanItem(
         kanbanData.find((kanban) => kanban.id === sourceIndex),
         kanbanData.find((kanban) => kanban.id === destinationIndex),
         source,
         destination
       );
-      const newKanbanData: IKanbanList[] = [...kanbanData];
-      const newKanbanListDataSource = newKanbanData.find(
+      const newKanbanData: IKanban[] = [...kanbanData];
+      const newKanbanDataSource = newKanbanData.find(
         (kanban) => kanban.id === sourceIndex
       );
-      const newKanbanListDataDestination = newKanbanData.find(
+      const newKanbanDataDestination = newKanbanData.find(
         (kanban) => kanban.id === destinationIndex
       );
-      if (!newKanbanListDataSource || !newKanbanListDataDestination) {
+      if (!newKanbanDataSource || !newKanbanDataDestination) {
         // throw err
         return;
       }
-      newKanbanListDataSource.items = reorderedKanbanListItems[sourceIndex];
-      newKanbanListDataDestination.items =
-        reorderedKanbanListItems[destinationIndex];
+      newKanbanDataSource.items = reorderedKanbanItems[sourceIndex];
+      newKanbanDataDestination.items = reorderedKanbanItems[destinationIndex];
       //setKanbanData(newKanbanData.filter((kanban) => kanban.items.length)); // remove kanban if empty
       setKanbanData(newKanbanData);
     }
   };
 
   const onSaveAddKanbanListItem = (
-    kanbanListItemId: string,
-    kanbanListItemContent: string
+    kanbanItemId: string,
+    kanbanItemContent: string
   ) => {
     // check if item already exists
     if (
       kanbanData.some((kanban) =>
-        kanban.items.some((item) => item.id === kanbanListItemId)
+        kanban.items.some((item) => item.id === kanbanItemId)
       )
     ) {
       alert("Kanban.tsx > onSaveAddKanbanListItem: id already exists!");
@@ -101,52 +97,46 @@ export default function Kanban() {
         return;
       }
       newKanbanListData.items.splice(newKanbanListData.items.length, 0, {
-        id: kanbanListItemId,
-        content: kanbanListItemContent,
+        id: kanbanItemId,
+        content: kanbanItemContent,
       });
       setKanbanData(newKanbanData);
       setAddItemKanbanId(null);
     }
   };
 
-  const onSaveAddKanbanList = (
-    kanbanListId: string,
-    kanbanListLabel: string
-  ) => {
+  const onSaveAddKanbanList = (kanbanId: string, kanbanLabel: string) => {
     // check if kanban already exists
-    if (kanbanData.some((kanban) => kanban.id === kanbanListId)) {
+    if (kanbanData.some((kanban) => kanban.id === kanbanId)) {
       alert("Kanban.tsx > onSaveAddKanbanList: id already exists!");
       return false;
     } else {
       setKanbanData([
         ...kanbanData,
-        { id: kanbanListId, label: kanbanListLabel, items: [] },
+        { id: kanbanId, label: kanbanLabel, items: [] },
       ]);
       return true;
     }
   };
 
-  const onKanbanListItemDelete = (
-    kanbanId: string,
-    kanbanListItemId: string
-  ) => {
+  const onKanbanItemDelete = (kanbanId: string, kanbanItemId: string) => {
     const newKanbanData = [...kanbanData];
-    const newKanbanListData = newKanbanData.find(
+    const newModifiedKanban = newKanbanData.find(
       (list) => list.id === kanbanId
     );
-    if (!newKanbanListData) {
+    if (!newModifiedKanban) {
       // throw err
       return;
     }
 
-    const removeIndex: number = newKanbanListData.items.findIndex(
-      (item) => item.id === kanbanListItemId
+    const removeIndex: number = newModifiedKanban.items.findIndex(
+      (item) => item.id === kanbanItemId
     );
     if (removeIndex < 0) {
       return;
     }
 
-    newKanbanListData.items.splice(removeIndex, 1);
+    newModifiedKanban.items.splice(removeIndex, 1);
     setKanbanData(newKanbanData);
   };
 
@@ -155,47 +145,36 @@ export default function Kanban() {
       <DragDropContext onDragEnd={onDragEnd}>
         <Box sx={{ paddingBottom: 4 }}>
           <Stack spacing={2} margin={5} direction="row">
-            {kanbanData?.map(
-              (kanbanList: IKanbanList, kanbanListIndex: number) => (
-                <KanbanList
-                  id={kanbanList.id}
-                  label={kanbanList.label}
-                  key={`kanban-list-${kanbanListIndex}`}
-                  onAddItemClick={() => setAddItemKanbanId(kanbanList.id)}
-                  onDeleteKanbanList={(kanbanId: string) =>
-                    setKanbanData(
-                      kanbanData.filter((kanban) => kanban.id !== kanbanId)
-                    )
-                  }
-                >
-                  {kanbanList.items.map(
-                    (
-                      kanbanListItem: IKanbanListItem,
-                      kanbanListItemIndex: number
-                    ) => (
-                      <KanbanItem
-                        id={kanbanListItem.id}
-                        index={kanbanListItemIndex}
-                        key={`kanban-list-item-${kanbanListItemIndex}`}
-                        onDelete={(kanbanListItemId) =>
-                          onKanbanListItemDelete(
-                            kanbanList.id,
-                            kanbanListItemId
-                          )
-                        }
-                      >
-                        {kanbanListItem.content}
-                      </KanbanItem>
-                    )
-                  )}
-                </KanbanList>
-              )
-            )}
-            <NewKanbanListCard onSave={onSaveAddKanbanList} />
+            {kanbanData?.map((kanban: IKanban, kanbanIndex: number) => (
+              <KanbanList
+                key={`kanban-${kanbanIndex}`}
+                kanbanData={kanban}
+                onAddItemClick={() => setAddItemKanbanId(kanban.id)}
+                onDeleteKanban={(kanbanId: string) =>
+                  setKanbanData(
+                    kanbanData.filter((kanban) => kanban.id !== kanbanId)
+                  )
+                }
+              >
+                {kanban.items.map(
+                  (kanbanItem: IKanbanItem, kanbanItemIndex: number) => (
+                    <KanbanItem
+                      kanbanItemData={kanbanItem}
+                      index={kanbanItemIndex}
+                      key={`kanban-item-${kanbanItemIndex}`}
+                      onDeleteKanbanItem={() =>
+                        onKanbanItemDelete(kanban.id, kanbanItem.id)
+                      }
+                    />
+                  )
+                )}
+              </KanbanList>
+            ))}
+            <NewKanbanCard onSave={onSaveAddKanbanList} />
           </Stack>
         </Box>
       </DragDropContext>
-      <NewKanbanListItemModal
+      <NewKanbanItemModal
         kanbanId={addItemKanbanId}
         kanbanLabel={
           kanbanData.find((kanban) => kanban.id === addItemKanbanId)?.label

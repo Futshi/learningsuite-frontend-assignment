@@ -1,25 +1,27 @@
 import { useState } from "react";
 import { Modal, Box, Typography, TextField, Button } from "@mui/material";
-import { IKanbanNewList } from "../../types/kanbanTypes";
+import { IKanbanItemNew } from "../../types/kanbanTypes";
 
-export default function NewKanbanListModal({
-  open,
+export default function NewKanbanItemModal({
+  kanbanId,
+  kanbanLabel,
   onClose,
   onSave,
 }: {
-  open: boolean;
+  kanbanId: string | null;
+  kanbanLabel: string | null | undefined;
   onClose: () => void;
-  onSave: (id: string, label: string) => boolean;
+  onSave: (kanbanItemId: string, kanbanItemContent: string) => void;
 }) {
-  const [formData, setFormData] = useState<IKanbanNewList>({
+  const [formData, setFormData] = useState<IKanbanItemNew>({
     id: undefined,
-    label: undefined,
+    content: undefined,
   });
   const [showError, setShowError] = useState(false);
 
   return (
     <Modal
-      open={open}
+      open={!!kanbanId}
       onClose={onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
@@ -38,7 +40,7 @@ export default function NewKanbanListModal({
         }}
       >
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          New Kanban
+          New KanbanItem for {kanbanLabel}
         </Typography>
         <TextField
           id="id"
@@ -55,30 +57,28 @@ export default function NewKanbanListModal({
           fullWidth
         />
         <TextField
-          id="label"
-          value={formData.label || ""}
+          id="content"
+          value={formData.content || ""}
           onChange={(e) =>
             setFormData({
               ...formData,
-              label: e.target.value,
+              content: e.target.value,
             })
           }
-          error={!formData.label && showError}
-          label="label"
+          error={!formData.content && showError}
+          label="content"
           margin="dense"
           fullWidth
         />
         <Button onClick={onClose}>Close</Button>
         <Button
           onClick={() => {
-            if (!formData.id || !formData.label) {
-              setShowError(true);
-            } else {
+            if (formData.id && formData.content) {
               setShowError(false);
-              if (onSave(formData.id, formData.label)) {
-                setFormData({ id: undefined, label: undefined });
-                onClose();
-              }
+              onSave(formData.id, formData.content);
+              setFormData({ id: undefined, content: undefined });
+            } else {
+              setShowError(true);
             }
           }}
         >

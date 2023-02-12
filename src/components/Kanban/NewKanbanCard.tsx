@@ -8,9 +8,9 @@ import {
   Box,
 } from "@mui/material";
 import Add from "@mui/icons-material/Add";
-import NewKanbanListModal from "./NewKanbanListModal";
+import NewKanbanModal from "./NewKanbanModal";
 
-export default function NewKanbanListCard({
+export default function NewKanbanCard({
   onSave,
 }: {
   onSave: (id: string, label: string) => boolean;
@@ -48,7 +48,7 @@ export default function NewKanbanListCard({
           </Stack>
         </CardContent>
       </Card>
-      <NewKanbanListModal
+      <NewKanbanModal
         open={addNewKanban}
         onClose={() => setAddNewKanban(false)}
         onSave={onSave}

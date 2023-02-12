@@ -1,20 +1,20 @@
-export interface IKanbanList {
+export interface IKanban {
   id: string;
   label: string;
-  items: IKanbanListItem[];
+  items: IKanbanItem[];
 }
 
-export interface IKanbanNewList {
+export interface IKanbanNew {
   id: string | undefined;
   label: string | undefined;
 }
 
-export interface IKanbanListItem {
+export interface IKanbanItem {
   id: string;
   content: string | undefined;
 }
 
-export interface IKanbanNewListItem {
+export interface IKanbanItemNew {
   id: string | undefined;
   content: string | undefined;
 }
