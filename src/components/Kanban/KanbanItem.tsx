@@ -1,12 +1,8 @@
 import { Card, CardContent, Checkbox, Stack, Typography } from "@mui/material";
+import { grey, lightBlue } from "@mui/material/colors";
+
 import Delete from "@mui/icons-material/Delete";
 import { Draggable } from "react-beautiful-dnd";
-
-const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
-  userSelect: "none",
-  background: isDragging ? "lightgrey" : "white",
-  ...draggableStyle,
-});
 
 export default function KanbanItem({
   id,
@@ -19,6 +15,12 @@ export default function KanbanItem({
   children: React.ReactNode;
   onDelete: (kanbanListItemId: string) => void;
 }) {
+  const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
+    userSelect: "none",
+    background: isDragging ? lightBlue["50"] : grey["50"],
+    ...draggableStyle,
+  });
+
   return (
     <Draggable draggableId={id} key={id} index={index}>
       {(provided, snapshot) => (
@@ -37,7 +39,7 @@ export default function KanbanItem({
               <Typography variant="h6" style={{ flex: 1 }}>
                 {children}
               </Typography>
-              <Delete onClick={() => onDelete(id)} />
+              <Delete sx={{ cursor: "pointer" }} onClick={() => onDelete(id)} />
             </Stack>
           </CardContent>
         </Card>

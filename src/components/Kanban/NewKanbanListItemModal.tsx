@@ -1,25 +1,24 @@
+import { useState } from "react";
 import { Modal, Box, Typography, TextField, Button } from "@mui/material";
-import {
-  IKanbanAddListItem,
-  IKanbanNewListItem,
-} from "../../types/kanbanTypes";
+import { IKanbanNewListItem } from "../../types/kanbanTypes";
 
-export default function NewKanbanModal({
-  item,
-  onChange,
+export default function NewKanbanListItemModal({
+  kanbanId,
   onClose,
   onSave,
-  checkError,
 }: {
-  item: IKanbanAddListItem;
-  onChange: (kanbanListItem: IKanbanNewListItem) => void;
+  kanbanId: string | null;
   onClose: () => void;
-  onSave: () => void;
-  checkError: boolean;
+  onSave: (kanbanListItemId: string, kanbanListItemContent: string) => void;
 }) {
+  const [formData, setFormData] = useState<IKanbanNewListItem>({
+    id: undefined,
+    content: undefined,
+  });
+  const [showError, setShowError] = useState(false);
   return (
     <Modal
-      open={!!item.kanbanId}
+      open={!!kanbanId}
       onClose={onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
@@ -38,38 +37,49 @@ export default function NewKanbanModal({
         }}
       >
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          New KanbanItem for {item.kanbanId}
+          New KanbanItem for {kanbanId}
         </Typography>
         <TextField
           id="id"
-          value={item.kanbanListItem?.id || ""}
+          value={formData.id || ""}
           onChange={(e) =>
-            onChange({
-              ...item.kanbanListItem,
+            setFormData({
+              ...formData,
               id: e.target.value,
             })
           }
-          error={!item.kanbanListItem?.id && checkError}
+          error={!formData.id && showError}
           label="id"
           margin="dense"
           fullWidth
         />
         <TextField
           id="content"
-          value={item.kanbanListItem?.content || ""}
+          value={formData.content || ""}
           onChange={(e) =>
-            onChange({
-              ...item.kanbanListItem,
+            setFormData({
+              ...formData,
               content: e.target.value,
             })
           }
-          error={!item.kanbanListItem?.content && checkError}
+          error={!formData.content && showError}
           label="content"
           margin="dense"
           fullWidth
         />
         <Button onClick={onClose}>Close</Button>
-        <Button onClick={onSave}>Save</Button>
+        <Button
+          onClick={() => {
+            if (formData.id && formData.content) {
+              setShowError(false);
+              onSave(formData.id, formData.content);
+            } else {
+              setShowError(true);
+            }
+          }}
+        >
+          Save
+        </Button>
       </Box>
     </Modal>
   );

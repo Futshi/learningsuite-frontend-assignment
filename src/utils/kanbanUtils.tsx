@@ -2,7 +2,7 @@ import { DraggableDescriptor } from "react-beautiful-dnd";
 
 import { IKanbanList, IKanbanListItem } from "../types/kanbanTypes";
 
-export function reorder(
+export function reorderkanbanlistitem(
   list: IKanbanList | undefined,
   startIndex: number,
   endIndex: number
@@ -17,7 +17,7 @@ export function reorder(
   return newItems;
 }
 
-export function move(
+export function moveKanbanListItem(
   source: IKanbanList | undefined,
   destination: IKanbanList | undefined,
   droppableSource: DraggableDescriptor,

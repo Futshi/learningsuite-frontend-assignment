@@ -2,26 +2,31 @@ import {
   Card,
   CardContent,
   CardHeader,
-  IconButton,
   Stack,
   Button,
+  IconButton,
 } from "@mui/material";
 import Delete from "@mui/icons-material/Delete";
+import { grey, lightBlue } from "@mui/material/colors";
 import { Droppable } from "react-beautiful-dnd";
-
-const getListStyle = (isDraggingOver: boolean) => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
-});
 
 export default function KanbanList({
   id,
+  label,
   children,
   onAddItemClick,
+  onDeleteKanbanList,
 }: {
   id: string;
+  label: string;
   children: React.ReactNode;
   onAddItemClick: (id: string) => void;
+  onDeleteKanbanList: (id: string) => void;
 }) {
+  const getListStyle = (isDraggingOver: boolean) => ({
+    backgroundColor: isDraggingOver ? lightBlue["100"] : grey["200"],
+  });
+
   return (
     <Droppable droppableId={id}>
       {(provided, snapshot) => (
@@ -33,12 +38,15 @@ export default function KanbanList({
           style={getListStyle(snapshot.isDraggingOver)}
         >
           <CardHeader
-            title={id}
-            // action={
-            //   <IconButton aria-label="settings">
-            //     <Delete />
-            //   </IconButton>
-            // }
+            title={label}
+            action={
+              <IconButton
+                aria-label="settings"
+                onClick={() => onDeleteKanbanList(id)}
+              >
+                <Delete />
+              </IconButton>
+            }
           />
           <CardContent>
             <Stack spacing={2}>

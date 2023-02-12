@@ -1,8 +1,9 @@
-import { IKanbanList, IKanbanListItem } from "../../types/kanbanTypes";
+import { IKanbanList } from "../../types/kanbanTypes";
 
 export const DUMMY_DATA: IKanbanList[] = [
   {
-    id: "kanban-one",
+    id: "#one",
+    label: "kanban-one",
     items: [
       {
         id: "one",
@@ -19,7 +20,8 @@ export const DUMMY_DATA: IKanbanList[] = [
     ],
   },
   {
-    id: "kanban-two",
+    id: "#two",
+    label: "kanban-two",
     items: [
       {
         id: "four",
@@ -36,7 +38,8 @@ export const DUMMY_DATA: IKanbanList[] = [
     ],
   },
   {
-    id: "kanban-three",
+    id: "#three",
+    label: "kanban-three",
     items: [
       {
         id: "seven",

@@ -1,6 +1,12 @@
 export interface IKanbanList {
   id: string;
+  label: string;
   items: IKanbanListItem[];
+}
+
+export interface IKanbanNewList {
+  id: string | undefined;
+  label: string | undefined;
 }
 
 export interface IKanbanListItem {
@@ -11,9 +17,4 @@ export interface IKanbanListItem {
 export interface IKanbanNewListItem {
   id: string | undefined;
   content: string | undefined;
-}
-
-export interface IKanbanAddListItem {
-  kanbanId: string | undefined;
-  kanbanListItem: IKanbanNewListItem;
 }
