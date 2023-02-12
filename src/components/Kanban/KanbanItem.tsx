@@ -1,4 +1,10 @@
-import { Card, CardContent, Checkbox, Stack, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  /* Checkbox, */
+  Stack,
+  Typography,
+} from "@mui/material";
 import { grey, lightBlue } from "@mui/material/colors";
 
 import Delete from "@mui/icons-material/Delete";
@@ -35,7 +41,7 @@ export default function KanbanItem({
         >
           <CardContent>
             <Stack spacing={2} direction="row" alignItems="center">
-              <Checkbox />
+              {/* <Checkbox /> */}
               <Typography variant="h6" style={{ flex: 1 }}>
                 {children}
               </Typography>
