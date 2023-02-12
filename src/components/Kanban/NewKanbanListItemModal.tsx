@@ -16,6 +16,7 @@ export default function NewKanbanListItemModal({
     content: undefined,
   });
   const [showError, setShowError] = useState(false);
+
   return (
     <Modal
       open={!!kanbanId}
@@ -73,6 +74,7 @@ export default function NewKanbanListItemModal({
             if (formData.id && formData.content) {
               setShowError(false);
               onSave(formData.id, formData.content);
+              setFormData({ id: undefined, content: undefined });
             } else {
               setShowError(true);
             }

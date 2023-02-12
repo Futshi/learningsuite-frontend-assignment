@@ -20,7 +20,7 @@ export default function NewKanbanListModal({
   return (
     <Modal
       open={open}
-      //   onClose={onClose}
+      onClose={onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
@@ -76,6 +76,7 @@ export default function NewKanbanListModal({
             } else {
               setShowError(false);
               if (onSave(formData.id, formData.label)) {
+                setFormData({ id: undefined, label: undefined });
                 onClose();
               }
             }
