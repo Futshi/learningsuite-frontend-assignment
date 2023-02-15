@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Box, Stack } from "@mui/material";
-import { DragDropContext, DraggableLocation, DropResult } from "react-beautiful-dnd";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import KanbanList from "./KanbanList";
 import KanbanItem from "./KanbanItem";
 import NewKanbanListCard from "./NewKanbanListCard";
 
-import { moveKanbanItem, reorderKanbanItem } from "../../utils/kanbanUtils";
+import { onKanbanItemDragEnd } from "../../utils/kanbanUtils";
 import { IKanbanList, IKanbanItem } from "../../types/kanbanTypes";
 
 import { DUMMY_DATA } from "./_DATA";
@@ -16,45 +16,8 @@ export default function Kanban() {
 
   const onDragEnd = (result: DropResult) => {
     if (!result?.destination) return;
-
-    const sourceKanbanList: DraggableLocation = result.source;
-    const destinationKanbanList: DraggableLocation = result.destination;
-
-    if (sourceKanbanList.droppableId === destinationKanbanList.droppableId) {
-      // move item within list
-      const reorderedKanbanItems = reorderKanbanItem(
-        kanbanData.find((kanban) => kanban.id === sourceKanbanList.droppableId),
-        sourceKanbanList.index,
-        destinationKanbanList.index
-      );
-      const newKanbanData: IKanbanList[] = [...kanbanData];
-      const kanbanList = newKanbanData.find((kanban) => kanban.id === sourceKanbanList.droppableId);
-      if (!kanbanList || !reorderedKanbanItems) {
-        throw new Error("Kanban.tsx > onDragEnd: Error");
-      }
-      kanbanList.items = reorderedKanbanItems;
-      setKanbanData(newKanbanData);
-    } else {
-      // move item from one list to another
-      const reorderedKanbanItems = moveKanbanItem(
-        kanbanData.find((kanban) => kanban.id === sourceKanbanList.droppableId),
-        kanbanData.find((kanban) => kanban.id === destinationKanbanList.droppableId),
-        sourceKanbanList,
-        destinationKanbanList
-      );
-      const newKanbanData: IKanbanList[] = [...kanbanData];
-      const kanbanListSource = newKanbanData.find(
-        (kanban) => kanban.id === sourceKanbanList.droppableId
-      );
-      const kanbanListDestination = newKanbanData.find(
-        (kanban) => kanban.id === destinationKanbanList.droppableId
-      );
-      if (!kanbanListSource || !kanbanListDestination) {
-        throw new Error("Kanban.tsx > onDragEnd: Error");
-        return;
-      }
-      kanbanListSource.items = reorderedKanbanItems[sourceKanbanList.droppableId];
-      kanbanListDestination.items = reorderedKanbanItems[destinationKanbanList.droppableId];
+    const newKanbanData = onKanbanItemDragEnd(kanbanData, result);
+    if (newKanbanData) {
       setKanbanData(newKanbanData);
     }
   };

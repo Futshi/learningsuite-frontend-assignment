@@ -42,6 +42,7 @@ export default function NewKanbanListCard({
           </Stack>
         </CardContent>
       </Card>
+
       <NewKanbanListModal
         open={showNewKanbanItemModal}
         onClose={() => setShowNewKanbanItemModal(false)}
