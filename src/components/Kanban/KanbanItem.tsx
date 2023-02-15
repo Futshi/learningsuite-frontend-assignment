@@ -1,14 +1,8 @@
-import {
-  Card,
-  CardContent,
-  /* Checkbox, */
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, Stack, Typography } from "@mui/material";
 import { grey, lightBlue } from "@mui/material/colors";
-
 import Delete from "@mui/icons-material/Delete";
 import { Draggable } from "react-beautiful-dnd";
+
 import { IKanbanItem } from "../../types/kanbanTypes";
 
 export default function KanbanItem({
@@ -44,7 +38,6 @@ export default function KanbanItem({
         >
           <CardContent>
             <Stack spacing={2} direction="row" alignItems="center">
-              {/* <Checkbox /> */}
               <Typography variant="h6" style={{ flex: 1 }}>
                 {kanbanItemData.content}
               </Typography>

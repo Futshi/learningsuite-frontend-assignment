@@ -8,14 +8,19 @@ import {
   Box,
 } from "@mui/material";
 import Add from "@mui/icons-material/Add";
-import NewKanbanModal from "./NewKanbanModal";
 
-export default function NewKanbanCard({
+import { IKanbanList } from "../../types/kanbanTypes";
+
+import NewKanbanListModal from "./NewKanbanListModal";
+
+export default function NewKanbanListCard({
   onSave,
 }: {
-  onSave: (id: string, label: string) => boolean;
+  onSave: (newKanbanList: IKanbanList) => boolean;
 }) {
-  const [addNewKanban, setAddNewKanban] = useState<boolean>(false);
+  const [showNewKanbanItemModal, setShowNewKanbanItemModal] =
+    useState<boolean>(false);
+
   return (
     <>
       <Card
@@ -40,7 +45,7 @@ export default function NewKanbanCard({
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <IconButton
                 aria-label="add"
-                onClick={() => setAddNewKanban(true)}
+                onClick={() => setShowNewKanbanItemModal(true)}
               >
                 <Add />
               </IconButton>
@@ -48,10 +53,13 @@ export default function NewKanbanCard({
           </Stack>
         </CardContent>
       </Card>
-      <NewKanbanModal
-        open={addNewKanban}
-        onClose={() => setAddNewKanban(false)}
-        onSave={onSave}
+      <NewKanbanListModal
+        open={showNewKanbanItemModal}
+        onClose={() => setShowNewKanbanItemModal(false)}
+        onSave={(newKanbanList: IKanbanList) => {
+          let success = onSave(newKanbanList);
+          setShowNewKanbanItemModal(!success);
+        }}
       />
     </>
   );

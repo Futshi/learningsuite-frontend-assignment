@@ -1,9 +1,9 @@
-import { DraggableDescriptor } from "react-beautiful-dnd";
+import { DraggableLocation } from "react-beautiful-dnd";
 
-import { IKanban, IKanbanItem } from "../types/kanbanTypes";
+import { IKanbanList, IKanbanItem } from "../types/kanbanTypes";
 
 export function reorderKanbanItem(
-  list: IKanban | undefined,
+  list: IKanbanList | undefined,
   startIndex: number,
   endIndex: number
 ) {
@@ -18,10 +18,10 @@ export function reorderKanbanItem(
 }
 
 export function moveKanbanItem(
-  source: IKanban | undefined,
-  destination: IKanban | undefined,
-  droppableSource: DraggableDescriptor,
-  droppableDestination: DraggableDescriptor
+  source: IKanbanList | undefined,
+  destination: IKanbanList | undefined,
+  droppableSource: DraggableLocation,
+  droppableDestination: DraggableLocation
 ) {
   if (!source || !destination) {
     return;

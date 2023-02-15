@@ -1,6 +1,6 @@
-import { IKanban } from "../../types/kanbanTypes";
+import { IKanbanList } from "../../types/kanbanTypes";
 
-export const DUMMY_DATA: IKanban[] = [
+export const DUMMY_DATA: IKanbanList[] = [
   {
     id: "#one",
     label: "kanban-one",

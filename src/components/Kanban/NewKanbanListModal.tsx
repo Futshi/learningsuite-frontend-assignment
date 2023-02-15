@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { Modal, Box, Typography, TextField, Button } from "@mui/material";
-import { IKanbanNew } from "../../types/kanbanTypes";
 
-export default function NewKanbanModal({
+import { IKanbanList } from "../../types/kanbanTypes";
+
+export default function NewKanbanListModal({
   open,
   onClose,
   onSave,
 }: {
   open: boolean;
   onClose: () => void;
-  onSave: (id: string, label: string) => boolean;
+  onSave: (newKanbanList: IKanbanList) => void;
 }) {
-  const [formData, setFormData] = useState<IKanbanNew>({
-    id: undefined,
-    label: undefined,
+  const [newKanbanList, setNewKanbanList] = useState<IKanbanList>({
+    id: "",
+    label: "",
+    items: [],
   });
   const [showError, setShowError] = useState(false);
 
@@ -38,32 +40,32 @@ export default function NewKanbanModal({
         }}
       >
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          New Kanban
+          New kanban
         </Typography>
         <TextField
           id="id"
-          value={formData.id || ""}
+          value={newKanbanList.id || ""}
           onChange={(e) =>
-            setFormData({
-              ...formData,
+            setNewKanbanList({
+              ...newKanbanList,
               id: e.target.value,
             })
           }
-          error={!formData.id && showError}
+          error={!newKanbanList.id && showError}
           label="id"
           margin="dense"
           fullWidth
         />
         <TextField
           id="label"
-          value={formData.label || ""}
+          value={newKanbanList.label || ""}
           onChange={(e) =>
-            setFormData({
-              ...formData,
+            setNewKanbanList({
+              ...newKanbanList,
               label: e.target.value,
             })
           }
-          error={!formData.label && showError}
+          error={!newKanbanList.label && showError}
           label="label"
           margin="dense"
           fullWidth
@@ -71,14 +73,14 @@ export default function NewKanbanModal({
         <Button onClick={onClose}>Close</Button>
         <Button
           onClick={() => {
-            if (!formData.id || !formData.label) {
-              setShowError(true);
+            let error =
+              newKanbanList.id.length < 1 || newKanbanList.id.length < 1;
+            setShowError(error);
+            if (error) {
+              return false;
             } else {
-              setShowError(false);
-              if (onSave(formData.id, formData.label)) {
-                setFormData({ id: undefined, label: undefined });
-                onClose();
-              }
+              onSave(newKanbanList);
+              setNewKanbanList({ id: "", label: "", items: [] });
             }
           }}
         >
