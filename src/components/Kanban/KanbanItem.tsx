@@ -16,9 +16,9 @@ export default function KanbanItem({
 }) {
   /**
    * Retrieve kanban item style based on conditions
-   * @param isDragging ... flag to determine the dragging state of the kanban item
-   * @param draggableStyle ... provided style
-   * @returns ... styles (object)
+   * @param isDragging flag to determine the dragging state of the kanban item
+   * @param draggableStyle provided style
+   * @returns styles (object)
    */
   const getItemStyle = (isDragging: boolean, draggableStyle: any): object => ({
     userSelect: "none",

@@ -4,10 +4,10 @@ import { IKanbanList, IKanbanItem } from "../types/kanbanTypes";
 
 /**
  * Function handling reordering of kanban items within a list
- * @param kanbanList ... The kanban list containing the two items to be reordered
- * @param startIndex ... Start index of kanban items to be moved
- * @param endIndex ... Index where the kanban items are moved to
- * @returns ... New order of kanban items
+ * @param kanbanList The kanban list containing the two items to be reordered
+ * @param startIndex Start index of kanban items to be moved
+ * @param endIndex Index where the kanban items are moved to
+ * @returns New order of kanban items
  */
 const reorderKanbanItem = (
   kanbanList: IKanbanList,
@@ -23,11 +23,11 @@ const reorderKanbanItem = (
 
 /**
  * Function handling the switch of an kanban item from one list (source) to another (destination)
- * @param sourceKanbanList ... Kanban list containing the kanban item
- * @param destinationKanbanList ... Kanban list where the kanban item is moved towards
- * @param droppableSource ... DraggableLocation containing details about the source draggable element
- * @param droppableDestination ... DraggableLocation containing details about the destination draggable element
- * @returns ... object containing the two new kanban lists
+ * @param sourceKanbanList Kanban list containing the kanban item
+ * @param destinationKanbanList Kanban list where the kanban item is moved towards
+ * @param droppableSource DraggableLocation containing details about the source draggable element
+ * @param droppableDestination DraggableLocation containing details about the destination draggable element
+ * @returns object containing the two new kanban lists
  */
 const moveKanbanItem = (
   sourceKanbanList: IKanbanList,
@@ -50,9 +50,9 @@ const moveKanbanItem = (
 
 /**
  * Function handling dragging logic
- * @param kanbanData ... "Old" kanban data containing all kanban lists and items
- * @param result ... DropResult, containing information about source drag locations and destination drag locations
- * @returns ... new kanban data or null on error (or no drag destination found)
+ * @param kanbanData "Old" kanban data containing all kanban lists and items
+ * @param result DropResult, containing information about source drag locations and destination drag locations
+ * @returns new kanban data or null on error (or no drag destination found)
  */
 export function onKanbanItemDragEnd(
   kanbanData: IKanbanList[],

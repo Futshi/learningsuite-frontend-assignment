@@ -1,8 +1,8 @@
 /**
  * Kanban list interface
- * @param id ... unique kanban list id
- * @param label ... kanban list's label
- * @param items ... kanban list items
+ * @param id unique kanban list id
+ * @param label kanban list's label
+ * @param items kanban list items
  */
 export interface IKanbanList {
   id: string;
@@ -12,8 +12,8 @@ export interface IKanbanList {
 
 /**
  * Kanban item interface
- * @param id ... unique kanban item id
- * @param content ... kanban item's content
+ * @param id unique kanban item id
+ * @param content kanban item's content
  */
 export interface IKanbanItem {
   id: string;

@@ -16,7 +16,7 @@ export default function Kanban() {
 
   /**
    * Function to handle release of drag item, modifying the kanban data to be rendered
-   * @param result ... DropResult object provided by react-beautiful-dnd
+   * @param result DropResult object provided by react-beautiful-dnd
    * @returns
    */
   const onDragEnd = (result: DropResult): void => {
@@ -29,9 +29,9 @@ export default function Kanban() {
 
   /**
    * Function to create new kanban item
-   * @param kanbanListId ... Kanban list id where the new kanban item is stored
-   * @param newKanbanItem ... Kanban item to be created
-   * @returns ... true on successful operation, otherwise false
+   * @param kanbanListId Kanban list id where the new kanban item is stored
+   * @param newKanbanItem Kanban item to be created
+   * @returns true on successful operation, otherwise false
    */
   const onCreateKanbanItem = (kanbanListId: string, newKanbanItem: IKanbanItem): boolean => {
     if (kanbanData.some((kanban) => kanban.items.some((item) => item.id === newKanbanItem.id))) {
@@ -52,7 +52,7 @@ export default function Kanban() {
 
   /**
    * Function to create new kanban list
-   * @param newKanbanList ... Kanban list to be created
+   * @param newKanbanList Kanban list to be created
    * @returns true on successful operation, otherwise false
    */
   const onCreateKanbanList = (newKanbanList: IKanbanList): boolean => {
@@ -67,8 +67,8 @@ export default function Kanban() {
 
   /**
    * Funtion to delete kanban item
-   * @param kanbanListId ... Id of kanban list containing the kanban item
-   * @param kanbanItemId ... Id of kanban item
+   * @param kanbanListId Id of kanban list containing the kanban item
+   * @param kanbanItemId Id of kanban item
    * @returns true on successful operation, otherwise false
    */
   const onKanbanItemDelete = (kanbanListId: string, kanbanItemId: string): boolean => {

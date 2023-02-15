@@ -23,8 +23,8 @@ export default function KanbanList({
 
   /**
    * Retrieve kanban item style based on conditions
-   * @param isDraggingOver ... flag to determine whether a dragged (kanban) item is dragged over the kanban list
-   * @returns ... styles (object)
+   * @param isDraggingOver flag to determine whether a dragged (kanban) item is dragged over the kanban list
+   * @returns styles (object)
    */
   const getListStyle = (isDraggingOver: boolean): object => ({
     backgroundColor: isDraggingOver ? lightBlue["100"] : grey["200"],
@@ -32,7 +32,7 @@ export default function KanbanList({
 
   /**
    * Function called when modal save button is clicked
-   * @param newKanbanItem ... new kanban item
+   * @param newKanbanItem new kanban item
    * @returns
    */
   const onSaveNewKanbanItem = (newKanbanItem: IKanbanItem): void => {
