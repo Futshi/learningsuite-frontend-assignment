@@ -13,6 +13,25 @@ export default function NewKanbanListCard({
 }) {
   const [showNewKanbanItemModal, setShowNewKanbanItemModal] = useState<boolean>(false);
 
+  /**
+   * Function handling new kanban list modal close button press
+   * @returns void
+   */
+  const onCloseNewKanbanListModal = () => {
+    setShowNewKanbanItemModal(false);
+  };
+
+  /**
+   * Function handling new kanban list modal save button press
+   * @param newKanbanList New kanban list to be created
+   * @returns true on successful operation, otherwise false
+   */
+  const onSaveNewKanbanListModal = (newKanbanList: IKanbanList): boolean => {
+    let success = onCreateKanbanList(newKanbanList);
+    setShowNewKanbanItemModal(!success);
+    return success;
+  };
+
   return (
     <>
       <Card
@@ -45,11 +64,8 @@ export default function NewKanbanListCard({
 
       <NewKanbanListModal
         open={showNewKanbanItemModal}
-        onClose={() => setShowNewKanbanItemModal(false)}
-        onSave={(newKanbanList: IKanbanList) => {
-          let success = onCreateKanbanList(newKanbanList);
-          setShowNewKanbanItemModal(!success);
-        }}
+        onClose={onCloseNewKanbanListModal}
+        onSave={onSaveNewKanbanListModal}
       />
     </>
   );

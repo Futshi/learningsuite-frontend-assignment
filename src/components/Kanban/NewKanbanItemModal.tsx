@@ -12,7 +12,7 @@ export default function NewKanbanItemModal({
   open: boolean;
   kanbanList: IKanbanList;
   onClose: () => void;
-  onSave: (newKanbanItem: IKanbanItem) => void;
+  onSave: (newKanbanItem: IKanbanItem) => boolean;
 }) {
   const [newKanbanItem, setNewKanbanItem] = useState<IKanbanItem>({
     id: "",
@@ -79,8 +79,9 @@ export default function NewKanbanItemModal({
             if (error) {
               return;
             }
-            onSave(newKanbanItem);
-            setNewKanbanItem({ id: "", content: "" });
+            if (onSave(newKanbanItem)) {
+              setNewKanbanItem({ id: "", content: "" });
+            }
           }}
         >
           Save

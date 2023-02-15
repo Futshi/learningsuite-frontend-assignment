@@ -16,7 +16,7 @@ export default function KanbanList({
 }: {
   kanbanList: IKanbanList;
   children: React.ReactNode;
-  onCreateKanbanItem: (kanbanListId: string, newKanbanItem: IKanbanItem) => void;
+  onCreateKanbanItem: (kanbanListId: string, newKanbanItem: IKanbanItem) => boolean;
   onDeleteKanbanList: (id: string) => void;
 }) {
   const [showKanbanItemModal, setShowKanbanItemModal] = useState<boolean>(false);
@@ -35,9 +35,10 @@ export default function KanbanList({
    * @param newKanbanItem new kanban item
    * @returns
    */
-  const onSaveNewKanbanItem = (newKanbanItem: IKanbanItem): void => {
-    onCreateKanbanItem(kanbanList.id, newKanbanItem);
-    setShowKanbanItemModal(false);
+  const onSaveNewKanbanItem = (newKanbanItem: IKanbanItem): boolean => {
+    let success = onCreateKanbanItem(kanbanList.id, newKanbanItem);
+    setShowKanbanItemModal(!success);
+    return success;
   };
 
   /**

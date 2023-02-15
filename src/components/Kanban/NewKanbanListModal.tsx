@@ -10,7 +10,7 @@ export default function NewKanbanListModal({
 }: {
   open: boolean;
   onClose: () => void;
-  onSave: (newKanbanList: IKanbanList) => void;
+  onSave: (newKanbanList: IKanbanList) => boolean;
 }) {
   const [newKanbanList, setNewKanbanList] = useState<IKanbanList>({
     id: "",
@@ -73,13 +73,14 @@ export default function NewKanbanListModal({
         <Button onClick={onClose}>Close</Button>
         <Button
           onClick={() => {
-            let error = newKanbanList.id.length < 1 || newKanbanList.id.length < 1;
+            let error = newKanbanList.id.length < 1 || newKanbanList.label.length < 1;
             setShowError(error);
             if (error) {
               return false;
             } else {
-              onSave(newKanbanList);
-              setNewKanbanList({ id: "", label: "", items: [] });
+              if (onSave(newKanbanList)) {
+                setNewKanbanList({ id: "", label: "", items: [] });
+              }
             }
           }}
         >
