@@ -74,8 +74,7 @@ export default function NewKanbanItemModal({
         <Button onClick={onClose}>Close</Button>
         <Button
           onClick={() => {
-            let error =
-              newKanbanItem.id.length < 1 || newKanbanItem.content.length < 1;
+            let error = newKanbanItem.id.length < 1 || newKanbanItem.content.length < 1;
             setShowError(error);
             if (error) {
               return;

@@ -21,20 +21,13 @@ export default function KanbanItem({
   });
 
   return (
-    <Draggable
-      draggableId={kanbanItemData.id}
-      key={kanbanItemData.id}
-      index={index}
-    >
+    <Draggable draggableId={kanbanItemData.id} key={kanbanItemData.id} index={index}>
       {(provided, snapshot) => (
         <Card
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          style={getItemStyle(
-            snapshot.isDragging,
-            provided.draggableProps.style
-          )}
+          style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
         >
           <CardContent>
             <Stack spacing={2} direction="row" alignItems="center">
