@@ -21,16 +21,29 @@ export default function KanbanList({
 }) {
   const [showKanbanItemModal, setShowKanbanItemModal] = useState<boolean>(false);
 
-  const getListStyle = (isDraggingOver: boolean) => ({
+  /**
+   * Retrieve kanban item style based on conditions
+   * @param isDraggingOver ... flag to determine whether a dragged (kanban) item is dragged over the kanban list
+   * @returns ... styles (object)
+   */
+  const getListStyle = (isDraggingOver: boolean): object => ({
     backgroundColor: isDraggingOver ? lightBlue["100"] : grey["200"],
   });
 
-  const onSaveNewKanbanItem = (newKanbanItem: IKanbanItem) => {
+  /**
+   * Function called when modal save button is clicked
+   * @param newKanbanItem ... new kanban item
+   * @returns
+   */
+  const onSaveNewKanbanItem = (newKanbanItem: IKanbanItem): void => {
     onCreateKanbanItem(kanbanList.id, newKanbanItem);
     setShowKanbanItemModal(false);
   };
 
-  const onCloseNewKanbanItemModal = () => {
+  /**
+   * Function called when modal close button is clicked
+   */
+  const onCloseNewKanbanItemModal = (): void => {
     setShowKanbanItemModal(false);
   };
 

@@ -7,9 +7,9 @@ import { IKanbanList } from "../../types/kanbanTypes";
 import NewKanbanListModal from "./NewKanbanListModal";
 
 export default function NewKanbanListCard({
-  onSave,
+  onCreateKanbanList,
 }: {
-  onSave: (newKanbanList: IKanbanList) => boolean;
+  onCreateKanbanList: (newKanbanList: IKanbanList) => boolean;
 }) {
   const [showNewKanbanItemModal, setShowNewKanbanItemModal] = useState<boolean>(false);
 
@@ -47,7 +47,7 @@ export default function NewKanbanListCard({
         open={showNewKanbanItemModal}
         onClose={() => setShowNewKanbanItemModal(false)}
         onSave={(newKanbanList: IKanbanList) => {
-          let success = onSave(newKanbanList);
+          let success = onCreateKanbanList(newKanbanList);
           setShowNewKanbanItemModal(!success);
         }}
       />

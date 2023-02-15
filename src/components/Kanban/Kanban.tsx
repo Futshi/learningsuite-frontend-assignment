@@ -14,7 +14,12 @@ import { DUMMY_DATA } from "./_DATA";
 export default function Kanban() {
   const [kanbanData, setKanbanData] = useState<IKanbanList[]>(DUMMY_DATA);
 
-  const onDragEnd = (result: DropResult) => {
+  /**
+   * Function to handle release of drag item, modifying the kanban data to be rendered
+   * @param result ... DropResult object provided by react-beautiful-dnd
+   * @returns
+   */
+  const onDragEnd = (result: DropResult): void => {
     if (!result?.destination) return;
     const newKanbanData = onKanbanItemDragEnd(kanbanData, result);
     if (newKanbanData) {
@@ -22,7 +27,13 @@ export default function Kanban() {
     }
   };
 
-  const onCreateKanbanItem = (kanbanListId: string, newKanbanItem: IKanbanItem) => {
+  /**
+   * Function to create new kanban item
+   * @param kanbanListId ... Kanban list id where the new kanban item is stored
+   * @param newKanbanItem ... Kanban item to be created
+   * @returns ... true on successful operation, otherwise false
+   */
+  const onCreateKanbanItem = (kanbanListId: string, newKanbanItem: IKanbanItem): boolean => {
     if (kanbanData.some((kanban) => kanban.items.some((item) => item.id === newKanbanItem.id))) {
       alert("Kanban.tsx > onSaveAddKanbanListItem: id already exists!");
       return false;
@@ -39,7 +50,12 @@ export default function Kanban() {
     return true;
   };
 
-  const onSaveKanbanList = (newKanbanList: IKanbanList) => {
+  /**
+   * Function to create new kanban list
+   * @param newKanbanList ... Kanban list to be created
+   * @returns true on successful operation, otherwise false
+   */
+  const onCreateKanbanList = (newKanbanList: IKanbanList): boolean => {
     if (kanbanData.some((kanban) => kanban.id === newKanbanList.id)) {
       alert("Kanban.tsx > onSaveAddKanbanList: id already exists!");
       return false;
@@ -49,9 +65,15 @@ export default function Kanban() {
     return true;
   };
 
-  const onKanbanItemDelete = (kanbanId: string, kanbanItemId: string) => {
+  /**
+   * Funtion to delete kanban item
+   * @param kanbanListId ... Id of kanban list containing the kanban item
+   * @param kanbanItemId ... Id of kanban item
+   * @returns true on successful operation, otherwise false
+   */
+  const onKanbanItemDelete = (kanbanListId: string, kanbanItemId: string): boolean => {
     const newKanbanData = [...kanbanData];
-    const newModifiedKanban = newKanbanData.find((list) => list.id === kanbanId);
+    const newModifiedKanban = newKanbanData.find((list) => list.id === kanbanListId);
     if (!newModifiedKanban) {
       throw new Error("Kanban.tsx > onKanbanItemDelete: Kanban item not found");
     }
@@ -65,6 +87,7 @@ export default function Kanban() {
 
     newModifiedKanban.items.splice(removeIndex, 1);
     setKanbanData(newKanbanData);
+    return true;
   };
 
   return (
@@ -91,7 +114,7 @@ export default function Kanban() {
                 ))}
               </KanbanList>
             ))}
-            <NewKanbanListCard onSave={onSaveKanbanList} />
+            <NewKanbanListCard onCreateKanbanList={onCreateKanbanList} />
           </Stack>
         </Box>
       </DragDropContext>
